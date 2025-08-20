@@ -20,12 +20,11 @@ class GoogleSheetsService {
   private baseUrl = 'https://sheets.googleapis.com/v4/spreadsheets';
 
   constructor() {
-    this.apiKey = process.env.VITE_GOOGLE_API_KEY || import.meta.env.VITE_GOOGLE_API_KEY || '';
+    this.apiKey = import.meta.env.VITE_GOOGLE_API_KEY || '';
     this.sheetId = '1OURa7t4JU4k8Py5Mc9ZJ0NW5qbg1JXzUbWFevQeyYaI';
     this.range = 'Sheet1!A:C';
 
     console.log('Environment debugging:', {
-      processEnv: process.env.VITE_GOOGLE_API_KEY ? 'SET' : 'NOT SET',
       importMeta: import.meta.env.VITE_GOOGLE_API_KEY ? 'SET' : 'NOT SET',
       apiKeyExists: this.apiKey ? 'YES' : 'NO',
       apiKeyLength: this.apiKey.length
