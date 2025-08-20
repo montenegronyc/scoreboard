@@ -6,6 +6,7 @@ import './App.css';
 
 function App() {
   const { teams, lastUpdated, error, isLoading } = useGoogleSheets();
+  console.log('App loaded - triggering Vercel redeploy');
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   // Check fullscreen status

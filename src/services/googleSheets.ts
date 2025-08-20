@@ -24,6 +24,13 @@ class GoogleSheetsService {
     this.sheetId = '1OURa7t4JU4k8Py5Mc9ZJ0NW5qbg1JXzUbWFevQeyYaI';
     this.range = 'Sheet1!A:C';
 
+    console.log('Environment debugging:', {
+      processEnv: process.env.VITE_GOOGLE_API_KEY ? 'SET' : 'NOT SET',
+      importMeta: import.meta.env.VITE_GOOGLE_API_KEY ? 'SET' : 'NOT SET',
+      apiKeyExists: this.apiKey ? 'YES' : 'NO',
+      apiKeyLength: this.apiKey.length
+    });
+
     if (!this.apiKey || !this.sheetId) {
       console.error('Missing Google Sheets configuration. Please check your environment variables.');
     }
