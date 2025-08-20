@@ -45,14 +45,27 @@ class GoogleSheetsService {
         throw new Error('No data found in the specified range');
       }
 
-      // Skip header row and parse data
-      const rows = response.data.values.slice(1);
-      const teams: TeamScore[] = rows
-        .filter((row: string[]) => row.length >= 2 && row[0] && row[1])
-        .map((row: string[]) => ({
-          name: String(row[0]).trim(),
-          score: parseInt(String(row[1]).replace(/[^0-9]/g, ''), 10) || 0
-        }));
+      // Get team names from header row (columns B and C)
+      const headerRow = response.data.values[0];
+      const totalSignupsRow = response.data.values[1];
+      
+      const teams: TeamScore[] = [];
+      
+      // Parse Team Alpha (column B)
+      if (headerRow[1] && totalSignupsRow[1]) {
+        teams.push({
+          name: String(headerRow[1]).trim(),
+          score: parseInt(String(totalSignupsRow[1]).replace(/[^0-9]/g, ''), 10) || 0
+        });
+      }
+      
+      // Parse Team Beta (column C)
+      if (headerRow[2] && totalSignupsRow[2]) {
+        teams.push({
+          name: String(headerRow[2]).trim(),
+          score: parseInt(String(totalSignupsRow[2]).replace(/[^0-9]/g, ''), 10) || 0
+        });
+      }
 
       // Find the leader(s)
       const maxScore = Math.max(...teams.map(t => t.score));
