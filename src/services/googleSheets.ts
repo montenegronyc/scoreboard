@@ -18,6 +18,8 @@ class GoogleSheetsService {
   private sheetId: string;
   private range: string;
   private baseUrl = 'https://sheets.googleapis.com/v4/spreadsheets';
+  private lastRequestTime = 0;
+  private minRequestInterval = 10000; // Minimum 10 seconds between requests
 
   constructor() {
     this.apiKey = import.meta.env.VITE_GOOGLE_API_KEY || '';
@@ -37,6 +39,18 @@ class GoogleSheetsService {
 
   async fetchScores(): Promise<SheetData> {
     try {
+      // Rate limiting protection
+      const now = Date.now();
+      const timeSinceLastRequest = now - this.lastRequestTime;
+      
+      if (timeSinceLastRequest < this.minRequestInterval) {
+        console.log(`Rate limiting: waiting ${this.minRequestInterval - timeSinceLastRequest}ms`);
+        await new Promise(resolve => setTimeout(resolve, this.minRequestInterval - timeSinceLastRequest));
+      }
+      
+      this.lastRequestTime = Date.now();
+      console.log(`Making API request at: ${new Date().toISOString()}`);
+      
       const url = `${this.baseUrl}/${this.sheetId}/values/${this.range}?key=${this.apiKey}`;
       const response = await axios.get(url);
       
