@@ -6,7 +6,7 @@ import './App.css';
 
 function App() {
   const { teams, lastUpdated, error, isLoading } = useGoogleSheets();
-  console.log('App loaded - testing deploy hook');
+  console.log('App loaded - testing with public repo');
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   // Check fullscreen status
