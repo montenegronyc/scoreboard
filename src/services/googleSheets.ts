@@ -20,9 +20,9 @@ class GoogleSheetsService {
   private baseUrl = 'https://sheets.googleapis.com/v4/spreadsheets';
 
   constructor() {
-    this.apiKey = import.meta.env.VITE_GOOGLE_SHEETS_API_KEY || '';
-    this.sheetId = import.meta.env.VITE_GOOGLE_SHEETS_ID || '';
-    this.range = import.meta.env.VITE_GOOGLE_SHEETS_RANGE || 'Sheet1!A:B';
+    this.apiKey = process.env.VITE_GOOGLE_API_KEY || import.meta.env.VITE_GOOGLE_API_KEY || '';
+    this.sheetId = '1OURa7t4JU4k8Py5Mc9ZJ0NW5qbg1JXzUbWFevQeyYaI';
+    this.range = 'Sheet1!A:C';
 
     if (!this.apiKey || !this.sheetId) {
       console.error('Missing Google Sheets configuration. Please check your environment variables.');
