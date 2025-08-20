@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { googleSheetsService } from '../services/googleSheets';
 import type { SheetData } from '../services/googleSheets';
 
-const DEFAULT_POLLING_INTERVAL = 30000; // 30 seconds to avoid rate limits
+const DEFAULT_POLLING_INTERVAL = 60000; // 1 minute to avoid rate limits
 
 export const useGoogleSheets = () => {
   const [data, setData] = useState<SheetData>({
