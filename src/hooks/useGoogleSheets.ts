@@ -15,6 +15,7 @@ export const useGoogleSheets = () => {
 
   const fetchData = useCallback(async () => {
     try {
+      console.log('Fetching data at:', new Date().toISOString());
       const newData = await googleSheetsService.fetchScores();
       
       // Check for score changes to trigger animations
@@ -36,12 +37,12 @@ export const useGoogleSheets = () => {
       console.error('Failed to fetch data:', error);
       setIsLoading(false);
     }
-  }, [previousScores]);
+  }, []);
 
   // Initial fetch
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
+  }, []);
 
   // Set up polling
   useEffect(() => {
@@ -50,14 +51,22 @@ export const useGoogleSheets = () => {
       10
     );
 
+    // Clear any existing interval first
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+
+    console.log('Setting up polling interval:', pollingInterval);
     intervalRef.current = setInterval(fetchData, pollingInterval);
 
     return () => {
+      console.log('Cleaning up polling interval');
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
+        intervalRef.current = null;
       }
     };
-  }, [fetchData]);
+  }, []);
 
   // Manual refresh function
   const refresh = useCallback(() => {
